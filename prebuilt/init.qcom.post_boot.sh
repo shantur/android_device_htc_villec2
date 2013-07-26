@@ -84,3 +84,11 @@ case "$target" in
         start thermald
     ;;
 esac
+
+# Wake-on-Volume
+case "$target" in
+    "msm8960")
+        echo 1 > /sys/keyboard/vol_wakeup
+    ;;
+esac
+

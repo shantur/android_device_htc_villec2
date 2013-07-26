@@ -3,11 +3,11 @@ import init.villec2.usb.rc
 on early-init
     mkdir /storage 0050 system sdcard_r
     mkdir /storage/sdcard0 0000 system system
-
+    mkdir /storage/usbdisk 0775 system system
+    
     # for backwards compatibility
     symlink /storage/sdcard0 /sdcard
     symlink /storage/sdcard0 /mnt/sdcard
-
     export EXTERNAL_STORAGE /storage/sdcard0
 
     # load msm8660 firmware so things have time to initialize
@@ -62,9 +62,12 @@ on emmc-fs
     symlink /system/vendor/firmware/fw_bcmdhd_p2p.bin /vendor/firmware/fw_bcmdhd_p2p.bin
     symlink /system/vendor/firmware/bcm4329.hcd /vendor/firmware/bcm4329.hcd
 
+    # TEMP HACK 
+    symlink /system/vendor/lib /vendor/lib
+
     mkdir /vendor/etc 0771 system system
     symlink /system/vendor/etc/audio_effects.conf /vendor/etc/audio_effects.conf
-
+    symlink /system/vendor/etc/audio_policy.conf /vendor/etc/audio_policy.conf
     # bluetooth permissions
     chown bluetooth bluetooth /dev/ttyHS0
     chmod 0660                /dev/ttyHS0

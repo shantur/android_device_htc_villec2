@@ -35,6 +35,7 @@ PRODUCT_COPY_FILES += \
     device/htc/villec2/ramdisk/init.villec2.rc:root/init.villec2.rc \
     device/htc/villec2/ramdisk/init.villec2.usb.rc:root/init.villec2.usb.rc \
     device/htc/villec2/ramdisk/ueventd.villec2.rc:root/ueventd.villec2.rc
+  
 
 ## recovery and custom charging
 PRODUCT_COPY_FILES += \
@@ -43,7 +44,9 @@ PRODUCT_COPY_FILES += \
     device/htc/villec2/recovery/sbin/offmode_charging:recovery/root/sbin/offmode_charging \
     device/htc/villec2/recovery/sbin/detect_key:recovery/root/sbin/detect_key \
     device/htc/villec2/recovery/sbin/htcbatt:recovery/root/sbin/htcbatt
-
+    
+      
+      
 # QC thermald config
 PRODUCT_COPY_FILES += device/htc/villec2/configs/thermald.conf:system/etc/thermald.conf
 
@@ -96,11 +99,20 @@ PRODUCT_COPY_FILES += \
 	device/htc/villec2/dsp/soundimage/srsfx_trumedia_voice.cfg:system/etc/soundimage/srsfx_trumedia_voice.cfg \
 	device/htc/villec2/dsp/soundimage/srs_geq10.cfg:system/etc/soundimage/srs_geq10.cfg \
 	device/htc/villec2/dsp/soundimage/srs_global.cfg:system/etc/soundimage/srs_global.cfg \
+	device/htc/villec2/dsp/snd_soc_msm/snd_soc_msm_2x:system/etc/snd_soc_msm/snd_soc_msm_2x \
 	device/htc/villec2/dsp/TPA2051_CFG.csv:system/etc/TPA2051_CFG.csv
 
 # Permissions
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml
+
+# Adreno Drivers
+PRODUCT_COPY_FILES += \
+    device/htc/villec2/firmware/a225_pfp.fw:system/etc/firmware/a225_pfp.fw \
+    device/htc/villec2/firmware/a225_pm4.fw:system/etc/firmware/a225_pm4.fw \
+    device/htc/villec2/firmware/a225p5_pm4.fw:system/etc/firmware/a225p5_pm4.fw \
+    device/htc/villec2/firmware/yamato_pfp.fw:system/etc/firmware/yamato_pfp.fw \
+    device/htc/villec2/firmware/yamato_pm4.fw:system/etc/firmware/yamato_pm4.fw
 
 ## misc
 PRODUCT_PROPERTY_OVERRIDES += \
