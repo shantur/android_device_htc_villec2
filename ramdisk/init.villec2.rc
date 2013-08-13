@@ -1,14 +1,19 @@
 import init.villec2.usb.rc
 
 on early-init
+    mkdir /storage/usbdisk 0775 system system
     mkdir /storage 0050 system sdcard_r
     mkdir /storage/sdcard0 0000 system system
-    mkdir /storage/usbdisk 0775 system system
+    
     
     # for backwards compatibility
-    symlink /storage/sdcard0 /sdcard
+    ssymlink /storage/sdcard0 /sdcard
     symlink /storage/sdcard0 /mnt/sdcard
+
     export EXTERNAL_STORAGE /storage/sdcard0
+
+    symlink /storage/usbdisk /usbdisk
+    symlink /storage/usbdisk /mnt/usbdisk
 
     # load msm8660 firmware so things have time to initialize
     rm /vendor
@@ -47,6 +52,8 @@ on early-init
 
     # Force loading of modem and Q6 images
     write /dev/smd_pkt_loopback 1
+# 4.3 requires this
+    chmod 0644 /proc/cmdline
 
 on init
     mkdir /devlog 0700 root root
@@ -77,6 +84,7 @@ on emmc-fs
     chown bluetooth bluetooth /sys/module/htc_bdaddress/parameters/bdaddress
     setprop ro.bt.bdaddr_path /sys/module/htc_bdaddress/parameters/bdaddress
 
+    
 
 on post-fs-data
     # double check the perms and set owner
@@ -102,6 +110,7 @@ on boot
 
     # for modem link
     chown system system /sys/module/serial/parameters/modem_enabled
+
 
     # wifi
     mkdir /data/misc 1771 system misc
