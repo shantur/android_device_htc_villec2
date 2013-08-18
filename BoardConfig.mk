@@ -35,7 +35,7 @@ BOARD_KERNEL_BASE := 0x48000000
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01400000
 BOARD_KERNEL_PAGE_SIZE := 2048
 TARGET_KERNEL_CONFIG := villec2_defconfig
-TARGET_KERNEL_SOURCE := ~/Desktop/android_kernel_htc_villec2
+TARGET_KERNEL_SOURCE := kernel/htc/villec2
 TARGET_SPECIFIC_HEADER_PATH := device/htc/villec2/include
 
 BOARD_KERNEL_CMDLINE := console=ttyHSL0 androidboot.hardware=villec2 no_console_suspend=1
