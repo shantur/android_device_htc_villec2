@@ -58,7 +58,7 @@ COMMON_GLOBAL_CFLAGS += -DQCOM_HARDWARE
 
 # we are using prebuilt in vendor tree
 TARGET_QCOM_DISPLAY_VARIANT := false
-TARGET_QCOM_MEDIA_VARIANT := false
+TARGET_QCOM_MEDIA_VARIANT := villec2
 
 
 # FB legacy
