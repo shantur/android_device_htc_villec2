@@ -131,6 +131,7 @@ PRODUCT_LOCALES += en_US hdpi
 # call the proprietary setup
 $(call inherit-product-if-exists, vendor/htc/villec2/villec2-vendor.mk)
 
+$(call inherit-product-if-exists, vendor/htc-extra/villec2/villec2-vendor.mk)
 # media profiles and capabilities spec
 $(call inherit-product, device/htc/villec2/media_a1026.mk)
 
