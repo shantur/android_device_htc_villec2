@@ -122,10 +122,6 @@ on boot
     # symlink for HDMI
     symlink /dev/graphics/fb1 /dev/graphics/hdmi
 
-    # Vibrator
-    chown system system sys/devices/platform/msm_ssbi.0/pm8058-core/pm8xxx-vib/amp
-    chmod 666 sys/devices/platform/msm_ssbi.0/pm8058-core/pm8xxx-vib/amp
-
     # audio
     mkdir /data/audio 2770 media audio
 

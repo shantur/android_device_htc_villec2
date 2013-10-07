@@ -165,8 +165,7 @@ USE_OPENGL_RENDERER := true
 TARGET_NO_HW_VSYNC := true
 TARGET_USES_C2D_COMPOSITION := true
 
-# Hardware tunables
-BOARD_HARDWARE_CLASS := device/htc/villec2/cmhw
+
 
 # Misc
 COMMON_GLOBAL_CFLAGS += -DHTCLOG
