@@ -14,9 +14,9 @@
 
 
 
-/devices/platform/msm_sdcc.1/mmc_host/mmc0       /storage/sdcard0    vfat    defaults    voldmanaged=sdcard0:35,nonremovable
+/devices/platform/msm_sdcc.1/mmc_host/mmc0  auto  auto  defaults        voldmanaged=sdcard0:35
 
 # USB storage
-/devices/platform/msm_hsusb_host/usb   /storage/usbdisk        auto    defaults        voldmanaged=usbdisk:auto
+/devices/platform/msm_hsusb_host/usb  auto  auto  defaults      voldmanaged=usbdisk:auto
 
 

@@ -1,19 +1,22 @@
 import init.villec2.usb.rc
 
-on early-init
-    mkdir /storage/usbdisk 0775 system system
-    mkdir /storage 0050 system sdcard_r
-    mkdir /storage/sdcard0 0000 system system
-    
+on init
+    mkdir /mnt/media_rw/sdcard0 0700 media_rw media_rw
+    mkdir /storage 0550 system sdcard_r
+    mkdir /storage/sdcard0 0700 system system
+    mkdir /mnt/media_rw/usbdisk 0700 media_rw media_rw
+
+    mkdir /storage/sdcard0 0700 root root
+    mkdir /storage/usbdisk 0700 root root
+
+    export EXTERNAL_STORAGE /storage/sdcard0:/storage/usbdisk0
     
     # for backwards compatibility
-    ssymlink /storage/sdcard0 /sdcard
+    symlink /storage/sdcard0 /sdcard
     symlink /storage/sdcard0 /mnt/sdcard
 
-    export EXTERNAL_STORAGE /storage/sdcard0
-
-    symlink /storage/usbdisk /usbdisk
-    symlink /storage/usbdisk /mnt/usbdisk
+    symlink /storage/usbdisk /usbdisk0
+    symlink /storage/usbdisk /mnt/usbdisk0
 
     # load msm8660 firmware so things have time to initialize
     rm /vendor
@@ -113,11 +116,10 @@ on boot
 
 
     # wifi
-    mkdir /data/misc 1771 system misc
-    mkdir /data/misc/wifi 0770 wifi wifi
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
+    mkdir /data/misc/wifi/wpa_supplicant 0770 wifi wifi
     mkdir /data/misc/dhcp 0770 dhcp dhcp
-    chown dhcp dhcp /data/misc/dhcp
+    
 
     # symlink for HDMI
     symlink /dev/graphics/fb1 /dev/graphics/hdmi
@@ -183,7 +185,7 @@ on boot
 
 # Services start here
 
-service dhcpcd_wlan0 /system/bin/dhcpcd -ABKL
+service dhcpcd_wlan0 /system/bin/dhcpcd -aABDKL
     class main
     disabled
     oneshot
@@ -196,6 +198,15 @@ service hciattach /system/bin/brcm_patchram_plus --enable_hci --no2bytes \
     group bluetooth net_bt_admin
     disabled
     oneshot
+
+#sdcard daemon
+service fuse_sdcard0 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard0 /storage/sdcard0
+    class late_start
+    disabled
+
+service fuse_usbdisk /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/usbdisk /storage/usbdisk
+      class late_start
+      disabled
 
 service hdmid /system/bin/hdmid
     class main
@@ -217,13 +228,6 @@ service mpdecision /system/bin/mpdecision --no_sleep --avg_comp --single_core_wh
 
 service netmgrd /system/bin/netmgrd
     class main
-
-service p2p_supplicant /system/bin/wpa_supplicant -Dnl80211 -iwlan0 -c /data/misc/wifi/wpa_supplicant.conf
-    user root
-    group wifi inet
-    socket wpa_wlan0 dgram 0660 wifi wifi
-    disabled
-    oneshot
 
 service qcom-post-boot /system/bin/sh /system/etc/init.qcom.post_boot.sh
     class main
@@ -254,7 +258,9 @@ service thermald /system/bin/thermald
     group root
     disabled
 
-service wpa_supplicant /system/bin/wpa_supplicant -Dnl80211 -iwlan0 -c /data/misc/wifi/wpa_supplicant.conf
+service wpa_supplicant /system/bin/wpa_supplicant -Dnl80211 -iwlan0 -c /data/misc/wifi/wpa_supplicant.conf \
+     -O/data/misc/wifi/sockets \
+     -e/data/misc/wifi/entropy.bin -g@android:wpa_wlan0
     user root
     group wifi inet
     socket wpa_wlan0 dgram 660 wifi wifi

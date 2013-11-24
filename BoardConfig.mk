@@ -38,7 +38,7 @@ TARGET_KERNEL_CONFIG := villec2_defconfig
 TARGET_KERNEL_SOURCE := kernel/htc/villec2
 TARGET_SPECIFIC_HEADER_PATH := device/htc/villec2/include
 
-BOARD_KERNEL_CMDLINE := console=ttyHSL0 androidboot.hardware=villec2 no_console_suspend=1
+BOARD_KERNEL_CMDLINE := console=ttyHSL0 androidboot.hardware=villec2 no_console_suspend=1 androidboot.selinux=permissive
 
 # Board
 TARGET_BOARD_PLATFORM := msm8660
@@ -57,7 +57,7 @@ ARCH_ARM_HAVE_TLS_REGISTER := true
 COMMON_GLOBAL_CFLAGS += -DQCOM_HARDWARE
 
 # we are using prebuilt in vendor tree
-TARGET_QCOM_DISPLAY_VARIANT := false
+TARGET_QCOM_DISPLAY_VARIANT := legacy
 TARGET_QCOM_MEDIA_VARIANT := villec2
 
 
