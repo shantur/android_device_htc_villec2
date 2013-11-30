@@ -1,22 +1,27 @@
 import init.villec2.usb.rc
 
 on init
+
+
     mkdir /mnt/media_rw/sdcard0 0700 media_rw media_rw
-    mkdir /storage 0550 system sdcard_r
-    mkdir /storage/sdcard0 0700 system system
     mkdir /mnt/media_rw/usbdisk 0700 media_rw media_rw
 
     mkdir /storage/sdcard0 0700 root root
     mkdir /storage/usbdisk 0700 root root
 
-    export EXTERNAL_STORAGE /storage/sdcard0:/storage/usbdisk0
-    
     # for backwards compatibility
     symlink /storage/sdcard0 /sdcard
     symlink /storage/sdcard0 /mnt/sdcard
+    export EXTERNAL_STORAGE /storage/sdcard0
+    symlink /storage/usbdisk /usbdisk
+    symlink /storage/usbdisk /mnt/usbdisk
 
-    symlink /storage/usbdisk /usbdisk0
-    symlink /storage/usbdisk /mnt/usbdisk0
+    setprop ro.usb.idproduct.ums 0cec
+    setprop ro.usb.idproduct.rndis 0cec
+    setprop ro.usb.idproduct.mtp 0f91
+    setprop ro.usb.idproduct.mtp_adb 0df9
+
+
 
     # load msm8660 firmware so things have time to initialize
     rm /vendor
@@ -58,7 +63,15 @@ on init
 # 4.3 requires this
     chmod 0644 /proc/cmdline
 
-on init
+    # Dummy command to open() /dev/smd0 and not attempt to read any bytes from it
+    #
+    # This causes smd_tty_open() in arch/arm/mach-msm/smd_tty.c to load
+    # the modem firmware early. This is necessary to avoid a race condition
+    # where in-call audio dies if a phone call is made before initialization
+    # has finished.
+
+    exec /system/xbin/busybox dd if=/dev/smd0 of=/dev/null bs=1 count=1 skip=1
+
     mkdir /devlog 0700 root root
 
 on emmc-fs
@@ -280,3 +293,5 @@ on property:service.adb.root=1
 
 on property:sys.radio.shutdown=true
     exec /system/bin/sh /system/etc/init.qcom.efs.sync.sh
+
+
