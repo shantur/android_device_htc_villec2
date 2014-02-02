@@ -150,3 +150,5 @@ PRODUCT_NAME := villec2
 PRODUCT_BRAND := htc
 PRODUCT_MODEL := One S C2
 PRODUCT_MANUFACTURER := HTC
+
+include device/htc/villec2/twrp.mk
